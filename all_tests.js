@@ -209,7 +209,13 @@ currentColorID++;
 
 if(currentColorID <= pm.environment.get("numcolors")) {
     pm.environment.set("colorid", currentColorID)
-    postman.setNextRequest("get single resource (redirect) LAST");
+    postman.setNextRequest("get single resource (redirect) VIII");
 } else {
     postman.setNextRequest();
 }
+
+/*
+ *  newman scripts  
+    newman run team_demo.postman_collection.json -k -e demo_env.postman_environment.json
+    newman run team_demo.postman_collection.json -k -e demo_env.postman_environment.json -r html --reporter-html-export "C:\repos\postman-demo\testOutput.html" --reporter-html-template "C:\repos\postman-demo\template-default.hbs"
+*/
