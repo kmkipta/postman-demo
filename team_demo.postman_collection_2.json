@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "cf3d7291-c6a1-4c4e-90e4-ef98d9124aab",
+		"name": "team_demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post response page I",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "42ab90e1-d06d-49a7-8b10-f349e35a12b7",
+						"type": "text/javascript",
+						"exec": [
+							"// test response time",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"// test status code",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    pm.expect(pm.response.status).to.be.eql('Created');",
+							"    pm.expect(pm.response.code).to.be.eql(201);",
+							"});",
+							"",
+							"// what about additional response details?",
+							"pm.test(\"Test Response Structure\", function() {",
+							"    pm.response.to.be.json;",
+							"    pm.test(\"Market Value Exists\",  function() {",
+							"        pm.expect(pm.response.json()).to.have.property('id');",
+							"    }); ",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "basic get page II",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e29ecb4e-1d25-4a61-ae90-059b50ca1818",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Ramos test\", function () {",
+							"    ",
+							"    // pass in array to search; return selected item",
+							"    var numsix = _.find(jsonData.data, function(o) { ",
+							"        return o.id == data.id; ",
+							"    });",
+							"",
+							"    console.log(numsix);",
+							"    ",
+							"    // check name Test Case",
+							"    pm.expect(numsix.last_name).to.eql(data.name);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Resources (Redirect) III",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8a23671-81a3-4686-9ba0-1625766a49b9",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// get id of fuschia rose",
+							"",
+							"console.log(jsonData.data);",
+							"",
+							"// find color by name",
+							"var myColor = _.find(jsonData.data, function(o) { ",
+							"    return o.name == 'fuchsia rose'; ",
+							"    // for use with datafile",
+							"    //return o.color == data.colorname;",
+							"});",
+							"",
+							"pm.environment.set(\"fuchsiaid\", myColor.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get single resource (redirect) III",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53ee77ed-9242-41b4-a1c2-29498df965b7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/{{fuchsiaid}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"{{fuchsiaid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "string manipulation IV",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8cf0b442-85a1-46f2-9419-5803d6c34cce",
+						"type": "text/javascript",
+						"exec": [
+							"// post date, then parse response date and test ",
+							"// note preq date; make sure new date returned matches set date",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"date parsing test\", function () {",
+							"    var returnedDate = jsonData.updatedAt;",
+							"    returnedDate = returnedDate.split('T')[0];",
+							"",
+							"    console.log(returnedDate);",
+							"    ",
+							"    // get name form response and compare to data ",
+							"    pm.expect(returnedDate).to.eql(pm.environment.get(\"todaydate\"));",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6370451d-6843-4f45-9705-2ba305be7024",
+						"type": "text/javascript",
+						"exec": [
+							"var today = new Date();",
+							"var dd = today.getDate();",
+							"var mm = today.getMonth()+1; //January is 0",
+							"var yyyy = today.getFullYear();",
+							"",
+							"dd = (dd < 10) ? ('0' + dd) : dd;",
+							"",
+							"mm = (mm < 10) ? ('0' + mm) : mm;",
+							"",
+							"today = yyyy + '-' + mm + '-' + dd;",
+							"",
+							"console.log(today);",
+							"",
+							"pm.environment.set(\"todaydate\", today);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"kev kip\",\r\n    \"job\": \"boss\"\r\n}"
+				},
+				"url": {
+					"raw": "{{demohostname}}/api/users/2",
+					"host": [
+						"{{demohostname}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consecutive requests V",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "889d5f79-2e1b-4d78-92cc-dd965018b4e6",
+						"type": "text/javascript",
+						"exec": [
+							"// get single resource for every color in color list",
+							"",
+							"var jsonData = pm.response.json();",
+							"console.log(jsonData.data);",
+							"",
+							"// get total number of colors to look for, then set env variable to use later",
+							"var numberOfColors = _.size(jsonData.data);",
+							"pm.environment.set(\"numcolors\", numberOfColors);",
+							"// set colorid to first in list; continue counting in next request",
+							"pm.environment.set(\"colorid\", jsonData.data[0].id);",
+							"",
+							"// _.forEach(jsonData.data, function(o) { ",
+							"    ",
+							"//     console.log(\"executing request for color id: \" + o.id);",
+							"    ",
+							"//     // set colorid for request",
+							"//     pm.environment.set(\"colorid\", o.id);",
+							"//     postman.setNextRequest(\"get single resource (redirect) LAST\");",
+							"// });",
+							"",
+							"//postman.setNextRequest();"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get single resource (redirect) LAST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3ec1e30-aab8-4914-b358-947c48d7b787",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// set colorid for request",
+							"var currentColorID = pm.environment.get(\"colorid\");",
+							"console.log(\"executing request for color id: \" + currentColorID);",
+							"",
+							"pm.test(\"check if json response value is \" + currentColorID, function () {",
+							"    pm.expect(jsonData.data.id).to.eql(currentColorID);",
+							"});",
+							"",
+							"currentColorID++;",
+							"",
+							"if(currentColorID <= pm.environment.get(\"numcolors\")) {",
+							"    pm.environment.set(\"colorid\", currentColorID)",
+							"    postman.setNextRequest(\"get single resource (redirect) LAST\");",
+							"} else {",
+							"    postman.setNextRequest();",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/{{colorid}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"{{colorid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

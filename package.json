@@ -1,0 +1,7 @@
+{
+  "name": "postmandemo",
+  "version": "1.0.0",
+  "dependencies": {
+    "postman-collection": "^3.2.0"
+  }
+}

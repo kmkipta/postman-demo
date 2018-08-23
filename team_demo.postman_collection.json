@@ -1,0 +1,1243 @@
+{
+	"info": {
+		"_postman_id": "cf3d7291-c6a1-4c4e-90e4-ef98d9124aab",
+		"name": "team_demo",
+		"description": "# Introduction\nThis Collection is meant as a Demo for learning Postman processes\n\n# Overview\nAll requests depend on 3rd party demo api from reqres.in\n\n# Authentication\nNo Authentication is needed\n\n# Error Codes\nNo Errors should be expected, aside form the occasional 500, 404 if the demo service is down and some 302 redirects\n\n# Rate limit\n000\n\n| Key| Value      | \n| -------------- |:-------------:|\n| Creator        | kip           |\n| No of Requests | 8             |",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "post response page I",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b2f3780d-0508-4369-9d39-21a595d5af55",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 201;",
+							"tests[\"Response time is acceptable\"] = responseTime < 1000; // milliseconds",
+							"",
+							"// test response time",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"// test status code",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    pm.expect(pm.response.status).to.be.eql('Created');",
+							"    pm.expect(pm.response.code).to.be.eql(201);",
+							"});",
+							"",
+							"// what about additional response details?",
+							"pm.test(\"Test Response Structure\", function() {",
+							"    pm.response.to.be.json;",
+							"    pm.test(\"Market Value Exists\",  function() {",
+							"        pm.expect(pm.response.json()).to.have.property('id');",
+							"    }); ",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "post response page I Example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "/api/users",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e8877ec86d82d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "51",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 21:45:56 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"33-7L5LDHdpFyl2gsvQYBreRkUDQGo\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"id\":\"458\",\"createdAt\":\"2018-08-22T21:47:51.378Z\"}"
+				}
+			]
+		},
+		{
+			"name": "basic get page II",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70bcb914-3765-4eb4-947c-8c3bc26f57b6",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// check if numsix has ramos name",
+							"pm.test(\"Ramos test\", function () {",
+							"    ",
+							"    // old for loop dont use",
+							"    /*",
+							"    var numSix;",
+							"    for (let i = 0; i < jsonData.data; i++) {",
+							"        if(jsonData.data[i].id == 6) {",
+							"            numsix = jsonData.data[i];",
+							"            break; ",
+							"        }",
+							"    }",
+							"    */",
+							"    // pass in array to search; return selected item",
+							"    var numsix = _.find(jsonData.data, function(o) { ",
+							"        //return o.id == data.id; ",
+							"        return o.id == 6; ",
+							"    });",
+							"",
+							"    console.log(numsix);",
+							"    ",
+							"    // check name Test Case",
+							"     pm.expect(numsix.last_name).to.eql(\"Ramos\");",
+							"    //pm.expect(numsix.last_name).to.eql(data.name);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "basic get page II",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e8987aab4d82d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 21:57:32 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1bb-wM9a6JWbwt3JpLNfwoQwxnqaC3Y\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"page\":2,\"per_page\":3,\"total\":12,\"total_pages\":4,\"data\":[{\"id\":4,\"first_name\":\"Eve\",\"last_name\":\"Holt\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/marcoramires/128.jpg\"},{\"id\":5,\"first_name\":\"Charles\",\"last_name\":\"Morris\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/stephenmoon/128.jpg\"},{\"id\":6,\"first_name\":\"Tracey\",\"last_name\":\"Ramos\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/bigmancho/128.jpg\"}]}"
+				}
+			]
+		},
+		{
+			"name": "list of resources (redirect) III",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e8a23671-81a3-4686-9ba0-1625766a49b9",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// get id of fuschia rose",
+							"",
+							"console.log(jsonData.data);",
+							"",
+							"// find color by name",
+							"var myColor = _.find(jsonData.data, function(o) { ",
+							"    return o.name == 'fuchsia rose'; ",
+							"    // for use with datafile",
+							"    //return o.color == data.colorname;",
+							"});",
+							"",
+							"pm.environment.set(\"fuchsiaid\", myColor.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List of Resources (Redirect) III",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "https://reqres.in/api/unknown",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"unknown"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e899eeebc682d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 21:58:31 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"138-JxfoRpyrgR+3MwPzWk39icdKPEA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"page\":1,\"per_page\":3,\"total\":12,\"total_pages\":4,\"data\":[{\"id\":1,\"name\":\"cerulean\",\"year\":2000,\"color\":\"#98B2D1\",\"pantone_value\":\"15-4020\"},{\"id\":2,\"name\":\"fuchsia rose\",\"year\":2001,\"color\":\"#C74375\",\"pantone_value\":\"17-2031\"},{\"id\":3,\"name\":\"true red\",\"year\":2002,\"color\":\"#BF1932\",\"pantone_value\":\"19-1664\"}]}"
+				}
+			]
+		},
+		{
+			"name": "get single resource (redirect) III",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53ee77ed-9242-41b4-a1c2-29498df965b7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/{{fuchsiaid}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"{{fuchsiaid}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get single resource (redirect) III",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "/api/unknown/{{fuchsiaid}}",
+							"path": [
+								"api",
+								"unknown",
+								"{{fuchsiaid}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "string manipulation IV",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8cf0b442-85a1-46f2-9419-5803d6c34cce",
+						"type": "text/javascript",
+						"exec": [
+							"// post date, then parse response date and test ",
+							"// note preq date; make sure new date returned matches set date",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"date parsing test\", function () {",
+							"    var returnedDate = jsonData.updatedAt;",
+							"    returnedDate = returnedDate.split('T')[0];",
+							"",
+							"    console.log(returnedDate);",
+							"    ",
+							"    // get name form response and compare to data ",
+							"    pm.expect(returnedDate).to.eql(pm.environment.get(\"todaydate\"));",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6370451d-6843-4f45-9705-2ba305be7024",
+						"type": "text/javascript",
+						"exec": [
+							"var today = new Date();",
+							"var dd = today.getDate();",
+							"var mm = today.getMonth()+1; //January is 0",
+							"var yyyy = today.getFullYear();",
+							"",
+							"dd = (dd < 10) ? ('0' + dd) : dd;",
+							"",
+							"mm = (mm < 10) ? ('0' + mm) : mm;",
+							"",
+							"today = yyyy + '-' + mm + '-' + dd;",
+							"",
+							"console.log(today);",
+							"",
+							"pm.environment.set(\"todaydate\", today);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"kev kip\",\r\n    \"job\": \"boss\"\r\n}"
+				},
+				"url": {
+					"raw": "{{demohostname}}/api/users/2",
+					"host": [
+						"{{demohostname}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "string manipulation IV",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kev kip\",\r\n    \"job\": \"boss\"\r\n}"
+						},
+						"url": {
+							"raw": "{{demohostname}}/api/users/2",
+							"host": [
+								"{{demohostname}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e89cb4df0d82d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 22:00:25 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"46-jUS5v3s8jrF6Bd+Jy7tG6rhsp/I\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"name\":\"kev kip\",\"job\":\"boss\",\"updatedAt\":\"2018-08-22T22:02:20.211Z\"}"
+				}
+			]
+		},
+		{
+			"name": "mock request V",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://ac480842-e402-4357-8d32-9f263fcef8c3.mock.pstmn.io/api/users",
+					"protocol": "https",
+					"host": [
+						"ac480842-e402-4357-8d32-9f263fcef8c3",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "mock request V",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "/api/users",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e8904b9f3c82d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 21:51:56 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1bb-D+c3sZ5g5u/nmLPQRl1uVo2heAo\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"page\":1,\"per_page\":3,\"total\":12,\"total_pages\":4,\"data\":[{\"id\":1,\"first_name\":\"George\",\"last_name\":\"Bluth\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg\"},{\"id\":2,\"first_name\":\"Janet\",\"last_name\":\"Weaver\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg\"},{\"id\":3,\"first_name\":\"Emma\",\"last_name\":\"Wong\",\"avatar\":\"https://s3.amazonaws.com/uifaces/faces/twitter/olegpogodaev/128.jpg\"}]}"
+				}
+			]
+		},
+		{
+			"name": "recursive request VI",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70f94404-8844-4202-8a74-c7f79f5e4597",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"find lowest leaf\", function () {",
+							"",
+							"    function traverseTree(o)",
+							"    {",
+							"      // can also check if property is null, like o[\"thing\"] != \"object\"",
+							"      if (typeof o[\"thing\"] == \"string\") {",
+							"        console.log(o[\"thing\"]);",
+							"        return o[\"thing\"];",
+							"        // keep going if we find an object",
+							"      } else if(typeof o[\"thing\"] == \"object\") {",
+							"        console.log(o[\"thingid\"]);",
+							"        return traverseTree(o[\"thing\"]);",
+							"      } else {",
+							"          return false;",
+							"      }  ",
+							"    }",
+							"",
+							"    var x = traverseTree(jsonData);",
+							"    console.log('found value is :' + x);",
+							"    pm.expect(x).to.eql('find_me');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://ac480842-e402-4357-8d32-9f263fcef8c3.mock.pstmn.io/api/manyleaves",
+					"protocol": "https",
+					"host": [
+						"ac480842-e402-4357-8d32-9f263fcef8c3",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"api",
+						"manyleaves"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "recursive request VI",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "/api/manyleaves",
+							"path": [
+								"api",
+								"manyleaves"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "{\r\n  \"thingid\": 0,\r\n  \"thing\": {\r\n    \"thingid\": 1,\r\n    \"thing\": {\r\n      \"thingid\": 2,\r\n      \"thing\": {\r\n        \"thingid\": 3,\r\n        \"thing\": {\r\n          \"thingid\": 4,\r\n          \"thing\": {\r\n            \"thingid\": 5,\r\n            \"thing\": {\r\n              \"thingid\": 6,\r\n              \"thing\": \"find_me\"\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}"
+				}
+			]
+		},
+		{
+			"name": "consecutive requests VII",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "00cbbd9a-7bc5-4432-a46d-1bdac1a2a0ee",
+						"type": "text/javascript",
+						"exec": [
+							"// get single resource for every color in color list",
+							"",
+							"var jsonData = pm.response.json();",
+							"console.log(jsonData.data);",
+							"",
+							"// get total number of colors to look for, then set env variable to use later",
+							"var numberOfColors = _.size(jsonData.data);",
+							"pm.environment.set(\"numcolors\", numberOfColors);",
+							"// set colorid to first in list; continue counting in next request",
+							"pm.environment.set(\"colorid\", jsonData.data[0].id);",
+							"",
+							"// example of what not to do",
+							"// _.forEach(jsonData.data, function(o) { ",
+							"    ",
+							"//     console.log(\"executing request for color id: \" + o.id);",
+							"    ",
+							"//     // set colorid for request",
+							"//     pm.environment.set(\"colorid\", o.id);",
+							"//     postman.setNextRequest(\"get single resource (redirect) LAST\");",
+							"// });",
+							"",
+							"//postman.setNextRequest();"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "consecutive requests V",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "https://reqres.in/api/unknown",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"unknown"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e89d2cecd282d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 22:00:44 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"138-JxfoRpyrgR+3MwPzWk39icdKPEA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"page\":1,\"per_page\":3,\"total\":12,\"total_pages\":4,\"data\":[{\"id\":1,\"name\":\"cerulean\",\"year\":2000,\"color\":\"#98B2D1\",\"pantone_value\":\"15-4020\"},{\"id\":2,\"name\":\"fuchsia rose\",\"year\":2001,\"color\":\"#C74375\",\"pantone_value\":\"17-2031\"},{\"id\":3,\"name\":\"true red\",\"year\":2002,\"color\":\"#BF1932\",\"pantone_value\":\"19-1664\"}]}"
+				}
+			]
+		},
+		{
+			"name": "get single resource (redirect) VIII",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3ec1e30-aab8-4914-b358-947c48d7b787",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"// set colorid for request",
+							"var currentColorID = pm.environment.get(\"colorid\");",
+							"console.log(\"executing request for color id: \" + currentColorID);",
+							"",
+							"pm.test(\"check if json response value is \" + currentColorID, function () {",
+							"    pm.expect(jsonData.data.id).to.eql(currentColorID);",
+							"});",
+							"",
+							"currentColorID++;",
+							"",
+							"if(currentColorID <= pm.environment.get(\"numcolors\")) {",
+							"    pm.environment.set(\"colorid\", currentColorID)",
+							"    postman.setNextRequest(\"get single resource (redirect) LAST\");",
+							"} else {",
+							"    postman.setNextRequest();",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/unknown/{{colorid}}",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"{{colorid}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get single resource (redirect) LAST",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "https://reqres.in/api/unknown/{{colorid}}",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"unknown",
+								"{{colorid}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "CF-RAY",
+							"value": "44e89d84aa7182d9-ATL",
+							"name": "CF-RAY",
+							"description": "Custom header"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip",
+							"name": "Content-Encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 22 Aug 2018 22:00:58 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"5b-B24LXhQXF6Vn3+qaVTMGF1r00uA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\"",
+							"name": "Expect-CT",
+							"description": "Custom header"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare",
+							"name": "Server",
+							"description": "A name for the server"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [
+						{
+							"expires": "Wed Aug 21 2019 10:01:44 GMT-0400 (EDT)",
+							"httpOnly": true,
+							"domain": "reqres.in",
+							"path": "/",
+							"secure": false,
+							"value": "d2a39901ccb2b1503af2b47a0ab4aee481534860104",
+							"key": "__cfduid"
+						}
+					],
+					"body": "{\"data\":{\"id\":1,\"name\":\"cerulean\",\"year\":2000,\"color\":\"#98B2D1\",\"pantone_value\":\"15-4020\"}}"
+				}
+			]
+		}
+	]
+}
